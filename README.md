@@ -12,6 +12,7 @@ Sistem autentikasi backend menggunakan Golang dengan Gin framework, GORM ORM, Po
 - PostgreSQL
 - JWT (`github.com/golang-jwt/jwt/v4`)
 - godotenv (`github.com/joho/godotenv`), opsional jika pakai `.env`
+- - Bcrypt (`golang.org/x/crypto/bcrypt`)
 
 Install dependencies:
 ```bash
