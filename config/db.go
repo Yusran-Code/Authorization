@@ -9,12 +9,12 @@ import (
 
 var DB *gorm.DB
 
-func InitDatabase()  {
-var err error	
-dsn := os.Getenv("DB")
-DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+func InitDatabase() {
+	var err error
+	dsn := os.Getenv("DB")
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-if err != nil {
-	panic("failed to connect DB")
-}
+	if err != nil {
+		panic("failed to connect DB")
+	}
 }

@@ -18,6 +18,7 @@ func main() {
 	router := gin.Default()
 	router.POST("/daftar", controllers.Daftar)
 	router.POST("/login", controllers.Login)
+	router.POST("/logout", controllers.Logout)
 	router.GET("/validasi", middleware.RequireAuth, controllers.Validasi)
 	router.Run()
 }

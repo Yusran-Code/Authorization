@@ -3,7 +3,7 @@ package controllers
 import (
 	"auth/config"
 	"auth/model"
-	"fmt"
+	"strconv"
 
 	"net/http"
 	"os"
@@ -41,15 +41,6 @@ func Daftar(c *gin.Context) {
 	c.JSON(200, gin.H{"email": data.Email})
 }
 
-//latihan
-//1.create email
-
-//2.hash
-
-//3.create user
-
-//4.res
-
 func Login(c *gin.Context) {
 	//get email/decode
 	var data model.User
@@ -72,10 +63,12 @@ func Login(c *gin.Context) {
 		return
 	}
 	//generate jwt
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": fmt.Sprintf("%d", user.ID),
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
-	})
+	claims := jwt.RegisteredClaims{
+		Subject:   strconv.Itoa(int(user.ID)),
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+		IssuedAt:  jwt.NewNumericDate(time.Now()),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Sign and get the complete encoded token as a string using the secret
 	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
@@ -97,4 +90,8 @@ func Login(c *gin.Context) {
 func Validasi(c *gin.Context) {
 	userID, _ := c.Get("userID")
 	c.JSON(200, gin.H{"message": userID})
+}
+func Logout(c *gin.Context) {
+	c.SetCookie("Authorization", "", -1, "", "", false, true)
+	c.JSON(200, gin.H{"message": "Logout sukses"})
 }
